@@ -96,16 +96,15 @@ async def clean_item_names(page):
 
 
 async def remove_payment_method(page):
-    """Remove the entire block that contains the payment method."""
+    """Remove the <div> that contains the 'Payment method' only (with class gap-1)."""
     await page.evaluate("""
-        const divs = document.querySelectorAll("div");
-        divs.forEach(div => {
-            const h1 = div.querySelector("h1");
-            if (h1 && h1.textContent.toLowerCase().includes("payment method")) {
-                div.remove();
-            }
-        });
+        const paymentMethodDiv = document.querySelector("div.gap-1");
+        if (paymentMethodDiv) {
+            paymentMethodDiv.remove();
+        }
     """)
+
+
 
 
 async def modify_and_save_invoice(page, invoice_id, output_dir):
