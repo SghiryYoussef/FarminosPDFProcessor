@@ -7,12 +7,10 @@ from playwright.async_api import async_playwright
 # === Configuration ===
 env_data = {
     "base_url": "https://farminos-staging.fly.dev",
-    "invoices_url":
-    "https://farminos-staging.fly.dev/Itto%20Group/itto-almonds/invoices",
+    "invoices_url": "https://farminos-staging.fly.dev/Itto%20Group/itto-almonds/invoices",
     "login": "https://farminos-staging.fly.dev/login",
     "email": "irrigation@ittogroup.ma",
-    "password":
-    "Irrig1234*"  # Password for staging environment (Adam) provide two passwords for staging and production environments 
+    "password": "Irrig1234*"  # Password for staging environment
 }
 
 
@@ -105,8 +103,6 @@ async def remove_payment_method(page):
     """)
 
 
-
-
 async def modify_and_save_invoice(page, invoice_id, output_dir):
     """Modifies and saves a single invoice as a PDF."""
     invoice_url = f"{env_data['invoices_url']}/{invoice_id}/print"
@@ -132,7 +128,7 @@ async def main():
 
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
-        context = await browser.new_context()
+        context = await browser.new_context(locale='fr-FR')  # Set browser language to French
         page = await context.new_page()
 
         await login(page)
